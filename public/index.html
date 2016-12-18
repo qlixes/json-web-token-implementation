@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>JWT Test App</title>
+    <style>*{font-family:sans-serif}</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+    <script>
+    (function(){
+        angular.module('app', []);
+
+        angular.module('app').controller('login', ['$scope', '$http', '$cookies', loginCtrl])
+
+        function loginCtrl(self, http, cookies){
+            self.login = login
+
+            function login(){
+                http.post("/api/authenticate", {
+                    name: self.name, 
+                    password: self.password
+                }).then(function (res){
+                    cookies.set()
+                    console.log(res)
+                }, function(err){
+                    console.log(err)
+                })
+            }
+        }
+    })()
+    </script>
+</head>
+<body ng-app="app">
+    <p>API</p><br>
+    
+    <div ng-controller="login">
+        <br>Name
+        <br><input type="text" name="name" ng-model="name"><br>
+        <br>Password
+        <br><input type="password" name="password" ng-model="password"> <br>
+        <br><input type="button" value="Login" ng-click="login()">
+    </div>
+
+</body>
+</html>
